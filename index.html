@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ورود و ثبت‌نام</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+        .container { max-width: 400px; margin: auto; padding: 20px; border: 1px solid #ccc; }
+        input { width: 100%; padding: 10px; margin: 10px 0; }
+        button { padding: 10px 20px; background-color: #4CAF50; color: white; border: none; cursor: pointer; }
+        button:hover { background-color: #45a049; }
+        .error { color: red; display: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>ورود یا ثبت‌نام</h2>
+        <input type="text" id="username" placeholder="نام کاربری">
+        <input type="password" id="password" placeholder="رمز عبور">
+        <button onclick="login()">ورود</button>
+        <button onclick="register()">ثبت‌نام</button>
+        <p class="error" id="error">نام کاربری یا رمز عبور اشتباه است!</p>
+    </div>
+
+    <script>
+        function register() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            if (username && password) {
+                const encodedPass = btoa(password); // رمزنگاری ساده با Base64
+                localStorage.setItem('user_' + username, encodedPass);
+                alert('ثبت‌نام با موفقیت انجام شد!');
+            } else {
+                alert('لطفاً همه فیلدها را پر کنید!');
+            }
+        }
+
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const storedPass = localStorage.getItem('user_' + username);
+            if (storedPass && atob(storedPass) === password) {
+                window.location.href = 'lessons.html'; // انتقال به صفحه دروس
+            } else {
+                document.getElementById('error').style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>
